@@ -47,9 +47,9 @@ export default class MineSweeper extends React.Component<IMineSweeperProps, IMin
 
 			{ !this.state.game.isGameInPlay && this.state.showInfoBoard && <InfoBoard gameOver={ !this.state.game.player.alive } gameWon={ this.state.game.isGameWon } startGame={ this.startGame } score={ this.state.game.player.score } containerHeight={ this.state.containerHeight } /> }
 
-			{ this.state.game.isGameInPlay && <div className="play-area">
+			<div className="play-area">
 				{ this.state.game.sprites?.map((sprite: ISprite) => <DrawSprite key={ sprite.key } sprite={ sprite } height={ this.state.spriteHeight } width={ this.state.spriteWidth } containerWidth={ this.state.containerWidth } handleBlockPress={ this.handleBlockPress.bind(this, sprite.key) }/>) }
-			</div> }
+			</div>
 
 			<div style={ this.styleStatusBottom() }><GameStatusBottom level={ this.state.game.level } time={ this.state.game.time } showButton={ !this.state.game.player.alive || this.state.game.isGameWon } toggleInfoBoard={ this.toggleInfoBoard } /></div>
 
