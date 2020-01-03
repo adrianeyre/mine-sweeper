@@ -44,6 +44,14 @@
 	.game-status-bottom {
 		font-size: 0.8em;
 	}
+
+	.game-status-centre {
+		button {
+			padding: 5px 10px;
+			margin-top: -8px;
+			font-size: 0.3em;
+		}
+	}
 }
 
 @media (max-width: 500px) {

@@ -73,6 +73,18 @@ $font-colour: white;
 			left: 20%;
 		}
 	}
+
+	.button-area {
+		font-size: 0.3em;
+
+		button {
+			padding: 10px 17px;
+		}
+
+		select {
+			padding: 8px 28px;
+		}
+	}
 }
 
 @media (max-width: 500px) {

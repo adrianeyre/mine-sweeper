@@ -12,8 +12,8 @@ export default class MobileButtons extends React.Component<IMobileButtonsProps, 
 		return <div className="mobile-buttons">
 			<div className="button-row">
 				<button type="button" onClick={ this.props.toggleFlag }>
-					{ this.props.flagMode && <span><img src={ sprite06 } alt="flag" /> Flag Mode</span> }
-					{ !this.props.flagMode && <span><img src={ sprite01 } alt="explore" /> Explore Mode</span> }
+					{ this.props.flagMode && <div><img src={ sprite06 } alt="flag" /> <span className="button-text">Flag Mode</span></div> }
+					{ !this.props.flagMode && <div><img src={ sprite01 } alt="explore" /> <span className="button-text">Explore Mode</span></div> }
 				</button>
 			</div>
 		</div>

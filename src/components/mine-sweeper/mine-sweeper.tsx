@@ -71,14 +71,14 @@ export default class MineSweeper extends React.Component<IMineSweeperProps, IMin
 		position: 'absolute' as 'absolute',
 		width: `100%`,
 		maxWidth: `${ this.state.containerHeight }px`,
-		top: `${ this.state.containerWidth / 100 * 130 }px`,
+		top: `${ this.state.containerWidth / 100 * 96.9 }px`,
 	})
 
 	private styleGameButtons = () => ({
 		position: 'absolute' as 'absolute',
 		width: `100%`,
 		maxWidth: `${ this.state.containerHeight }px`,
-		top: `${ this.state.containerWidth / 100 * 140 }px`,
+		top: `${ this.state.containerWidth / 100 * 100 }px`,
 	})
 
 	private startGame = async (level: string): Promise<void> => {
@@ -96,7 +96,8 @@ export default class MineSweeper extends React.Component<IMineSweeperProps, IMin
 		let containerWidth = this.container && this.container.getBoundingClientRect().width;
 		if (containerWidth > containerHeight) containerWidth = containerHeight;
 		const spriteWidth = containerWidth / this.state.game.width;
-		const spriteHeight = ((containerWidth / 100) * 85 ) / this.state.game.height;
+		const spriteHeight = ((containerWidth / 100) * 86 ) / this.state.game.height;
+		// const spriteHeight = containerWidth / this.state.game.height;
 		this.setState(() => ({ spriteWidth, spriteHeight, containerWidth, containerHeight }))
 	}
 
