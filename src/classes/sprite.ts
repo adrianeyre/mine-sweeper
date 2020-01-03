@@ -7,8 +7,8 @@ import PlayerResultEnum from './enums/player-result-enum';
 import sprite01 from '../images/sprite-01.png';
 import sprite02 from '../images/sprite-02.png';
 import sprite03 from '../images/sprite-03.png';
-// import sprite04 from '../images/sprite-04.png';
-// import sprite05 from '../images/sprite-05.png';
+import sprite04 from '../images/sprite-04.png';
+import sprite05 from '../images/sprite-05.png';
 import sprite06 from '../images/sprite-06.png';
 import sprite07 from '../images/sprite-07.png';
 import sprite08 from '../images/sprite-08.png';
@@ -50,6 +50,8 @@ export default class Sprite implements ISprite {
 	readonly playerImages = {
 		blank: sprite01,
 		bomb: sprite03,
+		wrong: sprite04,
+		explode: sprite05,
 		flag: sprite06,
 		zero: sprite02,
 		one: sprite07,
@@ -94,7 +96,10 @@ export default class Sprite implements ISprite {
 		this.flagged = !this.flagged;
 	}
 
+	
+	public explode = (): string => this.image = this.playerImages[ImageEnum.EXPLODE];
+	public unflag = (): string => this.image = this.playerImages[this.type === SpriteTypeEnum.BOMB ? ImageEnum.BOMB : ImageEnum.WRONG];
 	public updateImage = (type: ImageEnum): string => this.revealImage = this.playerImages[type];
 	public updateType = (type: SpriteTypeEnum): SpriteTypeEnum =>  this.type = type;
-	public getImageByValue = (value: number): ImageEnum => this.imageValues[value];
+	public updateImageByValue = (value: number): string => this.updateImage(this.imageValues[value]);
 }

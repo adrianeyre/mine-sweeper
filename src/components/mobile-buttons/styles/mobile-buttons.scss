@@ -1,0 +1,22 @@
+@import '../../default-styles/colours.scss';
+
+.mobile-buttons {
+	width: 100%;
+	position: absolute;
+	color: $info-bar-text-colour;
+	text-align: center;
+
+	button {
+		width: 20em;
+		font-size: 1em;
+	}
+
+	button:hover {
+		background-color: #008CBA;
+		color: white;
+	}
+
+	.button-row {
+		margin-bottom: 1em;
+	}
+}

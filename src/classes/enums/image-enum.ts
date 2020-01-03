@@ -1,6 +1,8 @@
 enum ImageEnum {
 	BLANK = 'blank',
 	BOMB = 'bomb',
+	WRONG = 'wrong',
+	EXPLODE = 'explode',
 	ZERO = 'zero',
 	ONE = 'one',
 	TWO = 'two',

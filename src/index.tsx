@@ -8,5 +8,5 @@ import MineSweeper from './components/mine-sweeper/mine-sweeper';
 import './index.scss';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<MineSweeper />, document.getElementById('root'));
+ReactDOM.render(<MineSweeper level="Easy"/>, document.getElementById('root'));
 serviceWorker.unregister();

@@ -7,4 +7,6 @@ export default interface IMineSweeperState {
 	containerWidth: number
 	containerHeight: number;
 	timer?: any;
+	showInfoBoard: boolean;
+	flagMode: boolean;
 }

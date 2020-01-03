@@ -1,12 +1,24 @@
 import React from 'react';
 
 import IInfoBoardProps from './interfaces/info-board-props';
+import IInfoBoardState from './interfaces/info-board-state';
 
 import player from '../../images/sprite-03.png';
 
 import './styles/info-board.scss';
 
-export default class InfoBoard extends React.Component<IInfoBoardProps, {}> {
+export default class InfoBoard extends React.Component<IInfoBoardProps, IInfoBoardState> {
+	constructor(props: IInfoBoardProps) {
+		super(props);
+
+		this.state = {
+			level: 'Easy',
+		}
+
+		this.handleLevelChange = this.handleLevelChange.bind(this);
+		this.startGame = this.startGame.bind(this);
+	}
+
 	public render() {
 		return <div className="info-board" style={ this.styleInfoBoard() }>
 			<div className="info-board-header">
@@ -31,7 +43,13 @@ export default class InfoBoard extends React.Component<IInfoBoardProps, {}> {
 			</div>
 
 			<div className="button-area">
-				<button type="button" onClick={ this.props.startGame }>Play Game</button>
+				<select value={ this.state.level } onChange={ this.handleLevelChange.bind(this) }>
+					<option value="Easy">Easy</option>
+					<option value="Medium">Medium</option>
+					<option value="Hard">Hard</option>
+					<option value="Ultra">Ultra</option>
+				</select>
+				<button type="button" onClick={ this.startGame.bind(this) }>Play Game</button>
 			</div>
 		</div>
 	}
@@ -40,4 +58,12 @@ export default class InfoBoard extends React.Component<IInfoBoardProps, {}> {
 		width: `100%`,
 		maxWidth: `${ this.props.containerHeight }px`,
 	})
+
+	private handleLevelChange = async (event: any): Promise<void> => {
+		event.preventDefault();
+		const level = event.target.value
+		await this.setState({ level });
+	};
+
+	private startGame = (): void => this.props.startGame(this.state.level);
 }

@@ -17,7 +17,9 @@ export default interface ISprite {
 	flagged: boolean;
 	reveal(): PlayerResultEnum;
 	flag(): void;
+	explode(): string;
+	unflag(): string;
 	updateImage(type: ImageEnum): string;
 	updateType(type: SpriteTypeEnum): SpriteTypeEnum;
-	getImageByValue(value: number): ImageEnum;
+	updateImageByValue(value: number): string;
 }

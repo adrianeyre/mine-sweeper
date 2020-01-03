@@ -7,6 +7,7 @@ import GameStatusTop from '../game-status-top/game-status-top';
 import GameStatusBottom from '../game-status-bottom/game-status-bottom';
 import DrawSprite from '../draw-sprite/draw-sprite';
 import InfoBoard from '../info-board/info-board';
+import MobileButtons from '../mobile-buttons/mobile-buttons';
 
 import './styles/mine-sweeper.scss';
 
@@ -23,6 +24,8 @@ export default class MineSweeper extends React.Component<IMineSweeperProps, IMin
 			containerWidth: 800,
 			containerHeight: 800,
 			game: new Game(this.props),
+			showInfoBoard: true,
+			flagMode: false,
 		}
 
 		this.styleContainer = this.styleContainer.bind(this);
@@ -42,13 +45,15 @@ export default class MineSweeper extends React.Component<IMineSweeperProps, IMin
 		return <div className="mine-sweeper-play-container" ref={(d) => { this.container = d }} style={ this.styleContainer() }>
 			<div style={ this.styleStatusTop() }><GameStatusTop score={ this.state.game.player.score } hiScore={ 10000 } /></div>
 
-			{ !this.state.game.isGameInPlay && <InfoBoard gameOver={ !this.state.game.player.alive } gameWon={ this.state.game.isGameWon } startGame={ this.startGame } score={ this.state.game.player.score } containerHeight={ this.state.containerHeight } /> }
+			{ !this.state.game.isGameInPlay && this.state.showInfoBoard && <InfoBoard gameOver={ !this.state.game.player.alive } gameWon={ this.state.game.isGameWon } startGame={ this.startGame } score={ this.state.game.player.score } containerHeight={ this.state.containerHeight } /> }
 
-			<div className="play-area">
+			{ this.state.game.isGameInPlay && <div className="play-area">
 				{ this.state.game.sprites?.map((sprite: ISprite) => <DrawSprite key={ sprite.key } sprite={ sprite } height={ this.state.spriteHeight } width={ this.state.spriteWidth } containerWidth={ this.state.containerWidth } handleBlockPress={ this.handleBlockPress.bind(this, sprite.key) }/>) }
-			</div>
+			</div> }
 
-			<div style={ this.styleStatusBottom() }><GameStatusBottom time={ this.state.game.time } /></div>
+			<div style={ this.styleStatusBottom() }><GameStatusBottom level={ this.state.game.level } time={ this.state.game.time } showButton={ !this.state.game.player.alive || this.state.game.isGameWon } toggleInfoBoard={ this.toggleInfoBoard } /></div>
+
+			{ this.state.game.isGameInPlay && this.state.containerWidth < 600 && <div style={ this.styleGameButtons() }><MobileButtons flagMode={ this.state.flagMode } toggleFlag={ this.toggleFlag }/></div> }
 		</div>
 	}
 
@@ -66,11 +71,19 @@ export default class MineSweeper extends React.Component<IMineSweeperProps, IMin
 		position: 'absolute' as 'absolute',
 		width: `100%`,
 		maxWidth: `${ this.state.containerHeight }px`,
-		top: `${ this.state.containerHeight / 100 * 94.375 }px`,
+		top: `${ this.state.containerWidth / 100 * 130 }px`,
 	})
 
-	private startGame = async (): Promise<void> => {
-		const game = new Game(this.props);
+	private styleGameButtons = () => ({
+		position: 'absolute' as 'absolute',
+		width: `100%`,
+		maxWidth: `${ this.state.containerHeight }px`,
+		top: `${ this.state.containerWidth / 100 * 140 }px`,
+	})
+
+	private startGame = async (level: string): Promise<void> => {
+		const props = { ...this.props, level};
+		const game = new Game(props);
 		game.isGameInPlay = true;
 		await this.stopTimer();
 		await this.startTimer();
@@ -89,7 +102,11 @@ export default class MineSweeper extends React.Component<IMineSweeperProps, IMin
 
 	private handleBlockPress = async (key: string, event: any) => {
 		const game = this.state.game;
-		game.handleInput(event.type, key);
+		let type = event.type
+		if (!game.isGameInPlay) return;
+		if (this.state.flagMode) type = 'contextmenu';
+
+		game.handleInput(type, key);
 
 		if (!game.isGameInPlay) this.stopTimer();
 		await this.setState(() => ({ game }));
@@ -108,10 +125,14 @@ export default class MineSweeper extends React.Component<IMineSweeperProps, IMin
 		await this.setState(() => ({ timer: undefined }));
 	}
 
-	private myTimer = (): void => {
+	private myTimer = async (): Promise<void> => {
 		const game = this.state.game
 		game.handleTimer();
 
-		this.setState(() => ({ game }));
+		if (!game.isGameInPlay) this.stopTimer();
+		await this.setState(() => ({ game }));
 	}
+
+	private toggleInfoBoard = () => this.setState(() => ({ showInfoBoard: !this.state.showInfoBoard }));
+	private toggleFlag = () => this.setState(() => ({ flagMode: !this.state.flagMode }));
 }

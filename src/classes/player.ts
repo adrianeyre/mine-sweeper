@@ -15,5 +15,6 @@ export default class Player implements IPlayer {
 
 	public successPress = (): number => this.score += this.SCORE_FOR_SUCCESS_PRESS;
 	public successGame = (): number => this.score += this.SCORE_FOR_SUCCESS_GAME;
+	public timeBonus = (time: number): number => this.score += 10 * time;
 	public die = () => this.alive = false;
 }

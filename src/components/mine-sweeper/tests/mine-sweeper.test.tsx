@@ -6,7 +6,7 @@ import IMineSweeperProps from '../interfaces/mine-sweeper-props';
 
 describe('Mine Sweeper', () => {
 	it('Should render correctly', () => {
-		const defaultProps: IMineSweeperProps = {};
+		const defaultProps: IMineSweeperProps = { level: 'Easy' };
 		const fishy = shallow(<MineSweeper {...defaultProps} />);
 		expect(fishy).toMatchSnapshot();
 	});

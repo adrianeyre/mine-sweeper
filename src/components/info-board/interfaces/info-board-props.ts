@@ -3,5 +3,5 @@ export default interface IInfoBoardProps {
 	gameWon: boolean;
 	score: number;
 	containerHeight: number;
-	startGame(): void;
+	startGame(level: string): void;
 }

@@ -3,5 +3,6 @@ export default interface IGame {
 	alive: boolean;
 	successPress(): number;
 	successGame(): number;
+	timeBonus(time: number): number
 	die(): boolean;
 }
