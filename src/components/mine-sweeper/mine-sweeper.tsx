@@ -23,9 +23,11 @@ export default class MineSweeper extends React.Component<IMineSweeperProps, IMin
 			spriteHeight: 0,
 			containerWidth: 800,
 			containerHeight: 800,
+			containerMargin: 0,
 			game: new Game(this.props),
 			showInfoBoard: true,
 			flagMode: false,
+			level: 'Easy',
 		}
 
 		this.styleContainer = this.styleContainer.bind(this);
@@ -45,11 +47,11 @@ export default class MineSweeper extends React.Component<IMineSweeperProps, IMin
 		return <div className="mine-sweeper-play-container" ref={(d) => { this.container = d }} style={ this.styleContainer() }>
 			<div style={ this.styleStatusTop() }><GameStatusTop score={ this.state.game.player.score } hiScore={ 10000 } /></div>
 
-			{ !this.state.game.isGameInPlay && this.state.showInfoBoard && <InfoBoard gameOver={ !this.state.game.player.alive } gameWon={ this.state.game.isGameWon } startGame={ this.startGame } score={ this.state.game.player.score } containerHeight={ this.state.containerHeight } /> }
+			{ !this.state.game.isGameInPlay && this.state.showInfoBoard && <InfoBoard level={ this.state.level } gameOver={ !this.state.game.player.alive } gameWon={ this.state.game.isGameWon } startGame={ this.startGame } score={ this.state.game.player.score } containerHeight={ this.state.containerHeight } /> }
 
-			<div className="play-area">
+			{ this.state.game.isGameInPlay && <div className="play-area">
 				{ this.state.game.sprites?.map((sprite: ISprite) => <DrawSprite key={ sprite.key } sprite={ sprite } height={ this.state.spriteHeight } width={ this.state.spriteWidth } containerWidth={ this.state.containerWidth } handleBlockPress={ this.handleBlockPress.bind(this, sprite.key) }/>) }
-			</div>
+			</div> }
 
 			<div style={ this.styleStatusBottom() }><GameStatusBottom level={ this.state.game.level } time={ this.state.game.time } showButton={ !this.state.game.player.alive || this.state.game.isGameWon } toggleInfoBoard={ this.toggleInfoBoard } /></div>
 
@@ -59,6 +61,7 @@ export default class MineSweeper extends React.Component<IMineSweeperProps, IMin
 
 	private styleContainer = () => ({
 		maxWidth: `${ this.state.containerHeight }px`,
+		marginLeft: `${ this.state.containerMargin }px`
 	})
 
 	private styleStatusTop = () => ({
@@ -87,18 +90,18 @@ export default class MineSweeper extends React.Component<IMineSweeperProps, IMin
 		game.isGameInPlay = true;
 		await this.stopTimer();
 		await this.startTimer();
-		await this.setState(() => ({ game }));
+		await this.setState(() => ({ game, level }));
 		this.updatePlayerArea();
 	}
 
 	private updatePlayerArea = (): void => {
 		const containerHeight = this.container && this.container.getBoundingClientRect().height;
 		let containerWidth = this.container && this.container.getBoundingClientRect().width;
+		const containerMargin = (window.innerWidth - containerHeight) / 2;
 		if (containerWidth > containerHeight) containerWidth = containerHeight;
 		const spriteWidth = containerWidth / this.state.game.width;
 		const spriteHeight = ((containerWidth / 100) * 86 ) / this.state.game.height;
-		// const spriteHeight = containerWidth / this.state.game.height;
-		this.setState(() => ({ spriteWidth, spriteHeight, containerWidth, containerHeight }))
+		this.setState(() => ({ spriteWidth, spriteHeight, containerWidth, containerHeight, containerMargin }))
 	}
 
 	private handleBlockPress = async (key: string, event: any) => {

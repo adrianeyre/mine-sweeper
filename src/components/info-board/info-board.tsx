@@ -12,7 +12,7 @@ export default class InfoBoard extends React.Component<IInfoBoardProps, IInfoBoa
 		super(props);
 
 		this.state = {
-			level: 'Easy',
+			level: this.props.level
 		}
 
 		this.handleLevelChange = this.handleLevelChange.bind(this);
