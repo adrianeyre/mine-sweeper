@@ -7,8 +7,10 @@ import IGameStatusBottomProps from '../interfaces/game-status-bottom-props';
 describe('Game Status Bottom', () => {
 	it('Should render correctly', () => {
 		const defaultProps: IGameStatusBottomProps = {
-			lives: 1000,
+			level: 'Easy',
 			time: 9999,
+			showButton: true,
+			toggleInfoBoard: jest.fn(),
 		};
 
 		const gameStatus = shallow(<GameStatusBottom {...defaultProps} />);

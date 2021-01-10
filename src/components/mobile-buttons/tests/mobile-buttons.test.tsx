@@ -7,7 +7,8 @@ import IMobileButtonsProps from '../interfaces/mobile-buttons-props';
 describe('Info Board', () => {
 	it('Should render correctly', () => {
 		const defaultProps: IMobileButtonsProps = {
-			handleMobileButton: jest.fn(),
+			flagMode: false,
+			toggleFlag: jest.fn(),
 		};
 
 		const infoBoard = shallow(<MobileButtons {...defaultProps} />);

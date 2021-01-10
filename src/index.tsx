@@ -6,7 +6,13 @@ import 'react-app-polyfill/stable';
 import MineSweeper from './components/mine-sweeper/mine-sweeper';
 
 import './index.scss';
-import * as serviceWorker from './serviceWorker';
+import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(<MineSweeper level="Easy"/>, document.getElementById('root'));
-serviceWorker.unregister();
+ReactDOM.render(
+    <React.StrictMode>
+        <MineSweeper level="Easy"/>
+    </React.StrictMode>,
+    document.getElementById('root')
+);
+
+reportWebVitals();
