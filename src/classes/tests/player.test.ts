@@ -1,11 +1,13 @@
 import Player from '../player';
-import IPlayerProps from '../interfaces/player-props';
+import IMineSweeperProps from  '../../components/mine-sweeper/interfaces/mine-sweeper-props';
 
 describe('Player', () => {
-	let defaultConfig: IPlayerProps
+	let defaultConfig: IMineSweeperProps
 
 	beforeEach(() => {
-		defaultConfig = {}
+		defaultConfig = {
+			level: '1',
+		}
 	})
 
 	it('Should create Player class', () => {
