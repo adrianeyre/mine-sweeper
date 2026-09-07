@@ -1,3 +1,5 @@
+import type { MouseEvent } from 'react';
+
 import ISprite from '../../../classes/interfaces/sprite';
 
 export default interface IDrawSpriteProps {
@@ -5,5 +7,5 @@ export default interface IDrawSpriteProps {
 	height: number;
 	width: number;
 	containerWidth: number;
-	handleBlockPress(event: any): any;
+	handleBlockPress(event: MouseEvent<HTMLDivElement>): void;
 }

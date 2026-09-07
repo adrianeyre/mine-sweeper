@@ -1,14 +1,10 @@
+import { describe, expect, it } from 'vitest';
+
 import Player from '../player';
-import IMineSweeperProps from  '../../components/mine-sweeper/interfaces/mine-sweeper-props';
+import IMineSweeperProps from '../../components/mine-sweeper/interfaces/mine-sweeper-props';
 
 describe('Player', () => {
-	let defaultConfig: IMineSweeperProps
-
-	beforeEach(() => {
-		defaultConfig = {
-			level: '1',
-		}
-	})
+	const defaultConfig: IMineSweeperProps = { level: '1' };
 
 	it('Should create Player class', () => {
 		const player = new Player(defaultConfig);

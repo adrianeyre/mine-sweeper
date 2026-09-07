@@ -1,18 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
+import { createRoot } from 'react-dom/client';
 
 import MineSweeper from './components/mine-sweeper/mine-sweeper';
-
-import './index.scss';
 import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
-    <React.StrictMode>
-        <MineSweeper level="Easy"/>
-    </React.StrictMode>,
-    document.getElementById('root')
+import './index.scss';
+
+const container = document.getElementById('root');
+if (!container) throw new Error('No #root element to mount the game into');
+
+createRoot(container).render(
+	<React.StrictMode>
+		<MineSweeper level="Easy" />
+	</React.StrictMode>,
 );
 
 reportWebVitals();

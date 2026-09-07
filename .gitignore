@@ -23,3 +23,10 @@ yarn-debug.log*
 yarn-error.log*
 
 .eslintcache
+
+# build output
+/dist
+/dist-web
+
+# vite
+.vite
