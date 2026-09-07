@@ -2,6 +2,10 @@ dist
 dist-web
 coverage
 node_modules
+# npm owns the formatting of these two, and mirrors package.json's indentation
+# into the lockfile. Letting Prettier retab package.json made every subsequent
+# `npm install` rewrite all 20k lines of package-lock.json.
+package.json
 package-lock.json
 CHANGELOG.md
 src/**/__snapshots__
