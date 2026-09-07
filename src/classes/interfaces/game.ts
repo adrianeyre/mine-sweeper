@@ -1,4 +1,4 @@
-import IPlayer from './player'
+import IPlayer from './player';
 import ISprite from './sprite';
 import PlayerResultEnum from '../enums/player-result-enum';
 
@@ -8,7 +8,7 @@ export default interface IGame {
 	width: number;
 	height: number;
 	bombs: number;
-	timer: any;
+	timer?: ReturnType<typeof setInterval>;
 	time: number;
 	level: string;
 	blankSpaces: number;

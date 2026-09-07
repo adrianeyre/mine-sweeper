@@ -1,5 +1,5 @@
-import React from 'react';
-import { shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 
 import GameStatusBottom from '../game-status-bottom';
 import IGameStatusBottomProps from '../interfaces/game-status-bottom-props';
@@ -10,10 +10,12 @@ describe('Game Status Bottom', () => {
 			level: 'Easy',
 			time: 9999,
 			showButton: true,
-			toggleInfoBoard: jest.fn(),
+			toggleInfoBoard: vi.fn(),
 		};
 
-		const gameStatus = shallow(<GameStatusBottom {...defaultProps} />);
-		expect(gameStatus).toMatchSnapshot();
+		const { container } = render(<GameStatusBottom {...defaultProps} />);
+
+		expect(screen.getByRole('button', { name: 'Show Board' })).toBeInTheDocument();
+		expect(container.firstChild).toMatchSnapshot();
 	});
 });

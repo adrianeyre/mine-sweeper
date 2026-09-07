@@ -46,7 +46,7 @@ export default class Sprite implements ISprite {
 		ImageEnum.SIX,
 		ImageEnum.SEVEN,
 		ImageEnum.EIGHT,
-	]
+	];
 	readonly playerImages = {
 		blank: sprite01,
 		bomb: sprite03,
@@ -62,7 +62,7 @@ export default class Sprite implements ISprite {
 		six: sprite12,
 		seven: sprite13,
 		eight: sprite14,
-	}
+	};
 
 	constructor(config: ISpriteProps) {
 		this.imageType = config.image;
@@ -87,19 +87,20 @@ export default class Sprite implements ISprite {
 		this.revealed = true;
 
 		return this.type === SpriteTypeEnum.BOMB ? PlayerResultEnum.DEAD : PlayerResultEnum.SAFE;
-	}
+	};
 
 	public flag = (): void => {
 		if (this.revealed) return;
 
-		this.image = this.flagged ? this.playerImages.blank : this.playerImages.flag
+		this.image = this.flagged ? this.playerImages.blank : this.playerImages.flag;
 		this.flagged = !this.flagged;
-	}
+	};
 
-	
-	public explode = (): string => this.image = this.playerImages[ImageEnum.EXPLODE];
-	public unflag = (): string => this.image = this.playerImages[this.type === SpriteTypeEnum.BOMB ? ImageEnum.BOMB : ImageEnum.WRONG];
-	public updateImage = (type: ImageEnum): string => this.revealImage = this.playerImages[type];
-	public updateType = (type: SpriteTypeEnum): SpriteTypeEnum =>  this.type = type;
+	public explode = (): string => (this.image = this.playerImages[ImageEnum.EXPLODE]);
+	public unflag = (): string =>
+		(this.image =
+			this.playerImages[this.type === SpriteTypeEnum.BOMB ? ImageEnum.BOMB : ImageEnum.WRONG]);
+	public updateImage = (type: ImageEnum): string => (this.revealImage = this.playerImages[type]);
+	public updateType = (type: SpriteTypeEnum): SpriteTypeEnum => (this.type = type);
 	public updateImageByValue = (value: number): string => this.updateImage(this.imageValues[value]);
 }

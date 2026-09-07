@@ -9,7 +9,7 @@ import SpriteTypeEnum from './enums/sprite-type-enum';
 import PlayerResultEnum from './enums/player-result-enum';
 import ILevel from './interfaces/level';
 
-import * as levelData from './data/levels'
+import * as levelData from './data/levels';
 
 export default class Game implements IGame {
 	public player: IPlayer;
@@ -17,14 +17,23 @@ export default class Game implements IGame {
 	public width: number;
 	public height: number;
 	public bombs: number;
-	public timer: any;
+	public timer?: ReturnType<typeof setInterval>;
 	public time: number;
 	public level: string;
 	public blankSpaces: number;
 	public isGameInPlay: boolean;
 	public isGameWon: boolean;
 
-	readonly MATRIX = [[-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0]];
+	readonly MATRIX = [
+		[-1, 1],
+		[0, 1],
+		[1, 1],
+		[1, 0],
+		[1, -1],
+		[0, -1],
+		[-1, -1],
+		[-1, 0],
+	];
 
 	constructor(config: IMineSweeperProps) {
 		const level = levelData.default.find((data: ILevel) => data.name === config.level);
@@ -47,27 +56,31 @@ export default class Game implements IGame {
 	public handleInput = (playerResult: PlayerResultEnum, key: string): void => {
 		switch (playerResult) {
 			case PlayerResultEnum.SAFE:
-				this.blowArea(key); break;
+				this.blowArea(key);
+				break;
 			case PlayerResultEnum.DEAD:
-				this.lose(key); break;
+				this.lose(key);
+				break;
 			case PlayerResultEnum.click:
-				this.revealSprite(key, true); break;
+				this.revealSprite(key, true);
+				break;
 			case PlayerResultEnum.contextmenu:
-				this.flagSprite(key); break;
+				this.flagSprite(key);
+				break;
 		}
-	}
+	};
 
 	public handleTimer = () => {
-		this.time --;
+		this.time--;
 
 		if (this.time < 1) this.lose();
-	}
+	};
 
 	private setupSprites = () => {
 		this.blankBoard();
 		this.bombBoard();
 		this.numberBoard();
-	}
+	};
 
 	private revealSprite = (key: string, handleResult: boolean) => {
 		const sprite = this.findSpriteByKey(key);
@@ -76,19 +89,18 @@ export default class Game implements IGame {
 		const result = sprite.reveal();
 		if (result === PlayerResultEnum.SAFE) this.successPress();
 		if (handleResult) this.handleInput(result, sprite.key);
-	}
+	};
 
 	private flagSprite = (key: string) => {
 		const sprite = this.findSpriteByKey(key);
 		if (!sprite) return;
 
 		sprite.flag();
-	}
+	};
 
 	private blowArea = (key: string) => {
 		const sprite = this.findSpriteByKey(key);
 		if (!sprite) return;
-
 
 		this.MATRIX.forEach((matrix: number[]) => {
 			const check = this.findSpriteByXandY(sprite.x + matrix[0], sprite.y + matrix[1]);
@@ -97,24 +109,26 @@ export default class Game implements IGame {
 				this.revealSprite(check.key, check.type === SpriteTypeEnum.BLANK);
 			}
 		});
-	}
+	};
 
 	private blankBoard = () => {
 		for (let x = 1; x <= this.width; x++) {
 			for (let y = 1; y <= this.height; y++) {
-				this.sprites.push(new Sprite({
-					key: `sprite-${ x }-${ y }`,
-					visable: true,
-					x,
-					y,
-					width: 1,
-					height: 1,
-					image: ImageEnum.BLANK,
-					type: SpriteTypeEnum.BLANK,
-				}));
+				this.sprites.push(
+					new Sprite({
+						key: `sprite-${x}-${y}`,
+						visable: true,
+						x,
+						y,
+						width: 1,
+						height: 1,
+						image: ImageEnum.BLANK,
+						type: SpriteTypeEnum.BLANK,
+					}),
+				);
 			}
 		}
-	}
+	};
 
 	private bombBoard = () => {
 		let placedBomb;
@@ -123,16 +137,16 @@ export default class Game implements IGame {
 			while (!placedBomb) {
 				const x = Math.floor(Math.random() * this.width) + 1;
 				const y = Math.floor(Math.random() * this.height) + 1;
-				const sprite = this.findSpriteByXandY(x, y)
+				const sprite = this.findSpriteByXandY(x, y);
 				if (sprite && sprite.type !== SpriteTypeEnum.BOMB) {
 					placedBomb = true;
-					this.blankSpaces --;
+					this.blankSpaces--;
 					sprite.updateType(SpriteTypeEnum.BOMB);
 					sprite.updateImage(ImageEnum.BOMB);
 				}
 			}
 		}
-	}
+	};
 
 	private numberBoard = () => {
 		for (let x = 1; x <= this.width; x++) {
@@ -142,7 +156,7 @@ export default class Game implements IGame {
 				if (sprite && sprite.type !== SpriteTypeEnum.BOMB) this.updateSpriteNumber(sprite);
 			}
 		}
-	}
+	};
 
 	private updateSpriteNumber = (sprite: ISprite) => {
 		let value = 0;
@@ -154,7 +168,7 @@ export default class Game implements IGame {
 
 		sprite.updateImageByValue(value);
 		sprite.updateType(value);
-	}
+	};
 
 	private successPress = () => {
 		this.blankSpaces--;
@@ -166,7 +180,7 @@ export default class Game implements IGame {
 			this.isGameWon = true;
 			this.isGameInPlay = false;
 		}
-	}
+	};
 
 	private lose = (key?: string): void => {
 		if (key) this.explode(key);
@@ -174,12 +188,12 @@ export default class Game implements IGame {
 		this.revealAll();
 		this.player.die();
 		this.isGameInPlay = false;
-	}
+	};
 
 	private explode = (key: string) => {
 		const sprite = this.findSpriteByKey(key);
 		if (sprite) sprite.explode();
-	}
+	};
 
 	private revealAll = () => {
 		for (let x = 1; x <= this.width; x++) {
@@ -190,8 +204,10 @@ export default class Game implements IGame {
 				if (sprite?.flagged) sprite.unflag();
 			}
 		}
-	}
+	};
 
-	private findSpriteByXandY = (x: number, y: number) => this.sprites.find((sprite: ISprite) => sprite.x === x && sprite.y === y);
-	private findSpriteByKey = (key: string) => this.sprites.find((thisSprite: ISprite) => thisSprite.key === key);
+	private findSpriteByXandY = (x: number, y: number) =>
+		this.sprites.find((sprite: ISprite) => sprite.x === x && sprite.y === y);
+	private findSpriteByKey = (key: string) =>
+		this.sprites.find((thisSprite: ISprite) => thisSprite.key === key);
 }

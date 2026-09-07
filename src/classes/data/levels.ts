@@ -28,7 +28,7 @@ const levels: ILevel[] = [
 		height: 30,
 		bombs: 500,
 		time: 300,
-	}
-]
+	},
+];
 
 export default levels;
