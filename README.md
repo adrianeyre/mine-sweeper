@@ -42,7 +42,7 @@ $ npm start
 
 ## <a name="Play">Play Mine Sweeper</a>
 
-- [Mine Sweeper](https://adrianeyre.github.io/mine-sweeper/)
+- [Mine Sweeper](https://mine-sweeper.adrianeyre.co.uk/)
 
 Every push to `master` cuts a release with semantic-release and publishes the
 built site to GitHub Pages.
