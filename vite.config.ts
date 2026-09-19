@@ -4,13 +4,14 @@ import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
 /**
- * GitHub Pages serves this project at `/<repo>/`, not at the domain root, so
- * every asset URL the build emits has to carry that prefix. Vite's `base` is
- * what puts it there; without it the deployed page requests `/assets/...` and
- * gets Pages' 404 for every script and image.
+ * The site is served from the root of https://mine-sweeper.adrianeyre.co.uk, so
+ * asset URLs must not carry the `/mine-sweeper/` repo prefix that Pages needed
+ * back when it was hosted at adrianeyre.github.io/mine-sweeper. A relative
+ * `base` emits `./assets/...`, which resolves correctly from the domain root
+ * and from a subpath alike, so neither host can 404 on the scripts and styles.
  */
 export default defineConfig({
-	base: '/mine-sweeper/',
+	base: './',
 	plugins: [react()],
 	resolve: {
 		alias: {

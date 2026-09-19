@@ -12,7 +12,7 @@
   "bugs": {
     "url": "https://github.com/adrianeyre/mine-sweeper/issues"
   },
-  "homepage": "https://adrianeyre.github.io/mine-sweeper/",
+  "homepage": "https://mine-sweeper.adrianeyre.co.uk/",
   "type": "module",
   "engines": {
     "node": ">=26"
